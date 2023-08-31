@@ -1,0 +1,106 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "todolist RESTFul API",
+    "version": "1",
+    "description": "Ini adalah testing membuat Open API",
+    "contact": {
+      "name": "arifwdn",
+      "email": "muhammadarifwardana01@gmail.com",
+      "url": "arifwdn.github.io"
+    },
+    "license": {
+      "name": "APACHE 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    },
+    "termsOfService": "https://arifwdn.github.io"
+  },
+  "servers": [
+    {
+      "description": "Todo list API Server",
+      "url": "http://{environment}.arifwdn.dev/api/v1",
+      "variables": {
+        "environment": {
+          "default": "dev",
+          "description": "Server Environment",
+          "enum": ["dev", "qa", "production"]
+        }
+      }
+    }
+  ],
+  "externalDocs": {
+    "url": "https://www.youtube.com/@stagingcode",
+    "description": "Youtube Eug"
+  },
+  "paths": {
+    "/todolist": {
+      "get": {
+        "summary": "get All Todolist",
+        "description": "Get All active todolist by default",
+        "responses": {},
+        "parameters": [
+          {
+            "name": "include_done",
+            "in": "query",
+            "required": false,
+            "description": "Is include_done todolist",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "description": "Filter todolist by name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "post": {
+        "summary": "Add Todolist",
+        "description": "Add new Todolist",
+        "responses": {}
+      }
+    },
+    "/todolist/{todolistId}": {
+      "put": {
+        "summary": "Edit todolist",
+        "description": "Edit existing todolist",
+        "parameters": [
+          {
+            "name": "todolistId",
+            "in": "path",
+            "required": true,
+            "description": "todolistId for Update",
+            "schema": {
+              "type": "integer",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "summary": "Delete todolist",
+        "description": "Delete an existing todolist",
+        "parameters": [
+          {
+            "name": "todolistId",
+            "in": "path",
+            "required": true,
+            "description": "todolistId for Delete",
+            "schema": {
+              "type": "integer",
+              "nullable": false
+            }
+          }
+        ],
+        "responses": {}
+      }
+    }
+  }
+}
