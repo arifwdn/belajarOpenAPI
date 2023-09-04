@@ -23,7 +23,7 @@
         "environment": {
           "default": "dev",
           "description": "Server Environment",
-          "enum": ["dev", "qa", "production"]
+          "enum": ["dev", "qa", "www"]
         }
       }
     }
@@ -37,7 +37,6 @@
       "get": {
         "summary": "get All Todolist",
         "description": "Get All active todolist by default",
-        "responses": {},
         "parameters": [
           {
             "name": "include_done",
@@ -58,12 +57,190 @@
               "type": "string"
             }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "success get All todo list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "todolistId": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "priority": {
+                        "type": "integer"
+                      },
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "description": "Example success get All todo list",
+                    "value": [
+                      {
+                        "todolistId": 1,
+                        "name": "Bersih-bersih",
+                        "priority": 1,
+                        "tags": ["morning", "daily"]
+                      },
+                      {
+                        "todolistId": 1,
+                        "name": "Sarapan",
+                        "priority": 1,
+                        "tags": ["morning", "daily"]
+                      },
+                      {
+                        "todolistId": 1,
+                        "name": "Berangkat kerja",
+                        "priority": 1,
+                        "tags": ["morning", "daily"]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data empty",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Message": {
+                    "description": "Failed get data 'cause empty",
+                    "value": {
+                      "message": "Data not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "post": {
         "summary": "Add Todolist",
         "description": "Add new Todolist",
-        "responses": {}
+        "requestBody": {
+          "required": true,
+          "description": "Data will add",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "required": true
+                  },
+                  "status": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 1,
+                    "minLength": 1,
+                    "required": true
+                  },
+                  "tags": {
+                    "type": "array",
+                    "required": false,
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Javascript": {
+                  "description": "Contoh Create todo list Javascript",
+                  "value": {
+                    "name": "mandi pagi (Javascript)",
+                    "status": 1,
+                    "tags": ["Daily-routine", "monday", "Morning"]
+                  }
+                },
+                "PHP": {
+                  "description": "Contoh Create todo list PHP",
+                  "value": {
+                    "name": "mandi pagi (PHP)",
+                    "status": 1,
+                    "tags": ["Daily-routine", "monday", "Morning"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success add todolist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "todolistId": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "priority": {
+                      "type": "integer"
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Javascript": {
+                    "description": "Contoh Create todo list Javascript",
+                    "value": {
+                      "name": "mandi pagi (Javascript)",
+                      "status": 1,
+                      "tags": ["Daily-routine", "monday", "Morning"]
+                    }
+                  },
+                  "PHP": {
+                    "description": "Contoh Create todo list PHP",
+                    "value": {
+                      "name": "mandi pagi (PHP)",
+                      "status": 1,
+                      "tags": ["Daily-routine", "monday", "Morning"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/todolist/{todolistId}": {
@@ -82,7 +259,105 @@
             }
           }
         ],
-        "responses": {}
+        "requestBody": {
+          "required": true,
+          "description": "Data will edit",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "required": true
+                  },
+                  "status": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 2,
+                    "minLength": 1,
+                    "required": true
+                  },
+                  "tags": {
+                    "type": "array",
+                    "required": false,
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Javascript": {
+                  "description": "Contoh Create todo list Javascript",
+                  "value": {
+                    "name": "mandi pagi (Javascript)",
+                    "status": 1,
+                    "tags": ["Daily-routine", "monday", "Morning"]
+                  }
+                },
+                "PHP": {
+                  "description": "Contoh Create todo list PHP",
+                  "value": {
+                    "name": "mandi pagi (PHP)",
+                    "status": 1,
+                    "tags": ["Daily-routine", "monday", "Morning"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success edit todolist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "todolistId": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "priority": {
+                      "type": "integer"
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Javascript": {
+                    "description": "Contoh Create todo list Javascript",
+                    "value": {
+                      "name": "mandi pagi (Javascript)",
+                      "status": 1,
+                      "tags": ["Daily-routine", "monday", "Morning"]
+                    }
+                  },
+                  "PHP": {
+                    "description": "Contoh Create todo list PHP",
+                    "value": {
+                      "name": "mandi pagi (PHP)",
+                      "status": 1,
+                      "tags": ["Daily-routine", "monday", "Morning"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "delete": {
         "summary": "Delete todolist",
@@ -99,7 +374,31 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "Success delete todolist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "description": "Success Delete todolist",
+                    "value": {
+                      "success": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
